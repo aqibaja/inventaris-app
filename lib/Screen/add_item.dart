@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
 class AddItem extends StatefulWidget {
@@ -9,6 +11,35 @@ class AddItem extends StatefulWidget {
 
 class _AddItemState extends State<AddItem> {
   DateTime _date = DateTime.now();
+
+  File _image; //variabel untuk menyimpan image sementara
+  final picker = ImagePicker(); //objeck picker untuk mengambil image
+
+  //method menyambil image di camera
+  Future getImageCamera() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  //method menyambil image di galery
+  Future getImageGalery() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
 
   Future<Null> selectedTimePicker(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -186,7 +217,9 @@ class _AddItemState extends State<AddItem> {
     return Container(
       margin: EdgeInsets.only(top: 1.0.h, right: 1.0.h, left: 1.0.h),
       child: RaisedButton(
-        onPressed: () {},
+        onPressed: () {
+          from == "Camera" ? getImageCamera() : getImageGalery();
+        },
         child: Text(from),
       ),
     );
@@ -199,10 +232,17 @@ class _AddItemState extends State<AddItem> {
       height: 21.0.h,
       decoration:
           BoxDecoration(border: Border.all(color: Colors.black, width: 5)),
-      child: Icon(
-        Icons.image,
-        size: 35.0.w,
-      ),
+      child: (_image == null)
+          ? Icon(
+              Icons.image,
+              size: 35.0.w,
+            )
+          : Image.file(
+              _image,
+              height: 35.0.w,
+              width: 35.0.w,
+              fit: BoxFit.fill,
+            ),
     );
   }
 }

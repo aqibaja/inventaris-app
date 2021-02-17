@@ -7,10 +7,10 @@ import 'package:inventaris_app_ptpn1/Widget/CircularProgress.dart';
 import 'package:inventaris_app_ptpn1/Widget/GridTilesInventaris.dart';
 
 //class list item
-class GetWidget extends StatelessWidget {
+class GetWidgetAll extends StatelessWidget {
   final String slug;
 
-  GetWidget({Key key, this.slug}) : super(key: key);
+  GetWidgetAll({Key key, this.slug}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

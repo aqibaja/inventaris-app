@@ -37,11 +37,21 @@ class CardInventaris extends StatelessWidget {
                       width: 25.0.w,
                       height: 15.0.h,
                       fit: BoxFit.fill,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace stackTrace) {
+                        // Appropriate logging or analytics, e.g.
+                        // myAnalytics.recordError(
+                        //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
+                        //   exception,
+                        //   stackTrace,
+                        // );
+                        return Image.asset("assets/images/no-image.png");
+                      },
                     )
                   : Image.asset(
                       "assets/images/no-image.png",
-                      width: 15.5.w,
-                      height: 7.5.h,
+                      width: 25.0.w,
+                      height: 15.0.h,
                     ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -64,7 +74,19 @@ class CardInventaris extends StatelessWidget {
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
                             fontFamily: 'Roboto-Light.ttf',
-                            fontSize: 11.0.sp))
+                            fontSize: 11.0.sp)),
+                    SizedBox(
+                      height: 1.0.h,
+                    ),
+                    Row(
+                      children: [
+                        buildElevatedButton("Edit"),
+                        SizedBox(
+                          width: 2.0.w,
+                        ),
+                        buildElevatedButton("Print QR Code")
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -74,4 +96,17 @@ class CardInventaris extends StatelessWidget {
       ),
     );
   }
+
+  ElevatedButton buildElevatedButton(String text) => ElevatedButton(
+        onPressed: () {},
+        child: Text(
+          text,
+        ),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.teal,
+          onPrimary: Colors.white,
+          shape: const BeveledRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5))),
+        ),
+      );
 }

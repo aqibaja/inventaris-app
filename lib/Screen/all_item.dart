@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventaris_app_ptpn1/Widget/getData.dart';
+import 'package:inventaris_app_ptpn1/Widget/GetDataAll.dart';
 import 'package:sizer/sizer.dart';
 
 final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
@@ -59,7 +59,7 @@ class _AllItemState extends State<AllItem> {
             ),
           ),
           Expanded(
-            child: GetWidget(
+            child: GetWidgetAll(
               slug: "inventaris",
             ),
           )
