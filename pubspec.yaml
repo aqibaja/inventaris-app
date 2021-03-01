@@ -33,6 +33,13 @@ dependencies:
   flappy_search_bar: ^1.7.2
   http: ^0.12.0+4
   image_picker: ^0.6.7+22
+  simple_location_picker: ^0.0.3
+  flutter_bloc: ^6.1.1
+  equatable: ^1.2.6
+  qr_flutter: ^3.2.0
+  shared_preferences: ^0.5.12+4
+  geolocator: ^6.2.1
+  geocoding: ^1.0.5
 
 dev_dependencies:
   flutter_test:

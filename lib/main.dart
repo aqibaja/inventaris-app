@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventaris_app_ptpn1/bloc/lokasi_bloc.dart';
 import 'main_page.dart';
 import 'package:sizer/sizer.dart';
 
@@ -17,11 +19,16 @@ class MyApp extends StatelessWidget {
           builder: (context, orientation) {
             //initialize SizerUtil()
             SizerUtil().init(constraints, orientation); //initialize SizerUtil
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Sizer',
-              theme: ThemeData(primaryColor: Colors.lightGreen),
-              home: MainPage(),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => LokasiBloc()),
+              ],
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Sizer',
+                theme: ThemeData(primaryColor: Colors.lightGreen),
+                home: MainPage(),
+              ),
             );
           },
         );

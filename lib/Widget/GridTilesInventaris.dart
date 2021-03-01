@@ -45,7 +45,12 @@ class CardInventaris extends StatelessWidget {
                         //   exception,
                         //   stackTrace,
                         // );
-                        return Image.asset("assets/images/no-image.png");
+                        return Image.asset(
+                          "assets/images/no-image.png",
+                          width: 25.0.w,
+                          height: 15.0.h,
+                          fit: BoxFit.fill,
+                        );
                       },
                     )
                   : Image.asset(
