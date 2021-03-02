@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:inventaris_app_ptpn1/bloc/inventaris_bloc.dart';
 import 'package:inventaris_app_ptpn1/bloc/lokasi_bloc.dart';
 import 'package:inventaris_app_ptpn1/function/get_location.dart';
 import 'package:simple_location_picker/simple_location_picker_screen.dart';
 import 'package:simple_location_picker/simple_location_result.dart';
 import 'package:simple_location_picker/utils/slp_constants.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:sizer/sizer.dart';
 import 'package:geolocator/geolocator.dart';
+
+DateFormat dateFormat = DateFormat("yyyy-MM-dd"); //format date time
 
 class AddItem extends StatefulWidget {
   @override
@@ -21,6 +26,7 @@ String location = '(${4.487710}, ${97.943975})';
 
 class _AddItemState extends State<AddItem> {
   DateTime _date = DateTime.now();
+  //String _date = dateFormat.format(DateTime.now());
   SimpleLocationResult _selectedLocation;
   File _image; //variabel untuk menyimpan image sementara
   final picker = ImagePicker(); //objeck picker untuk mengambil image
@@ -28,6 +34,7 @@ class _AddItemState extends State<AddItem> {
   LocationPermission geolocationPermission;
   Position position;
   LokasiBloc _lokasiBloc;
+  InventarisBloc _inventarisBloc;
 
   //method menyambil image di camera
   Future getImageCamera() async {
@@ -74,18 +81,16 @@ class _AddItemState extends State<AddItem> {
   TextEditingController _textEditLocation = TextEditingController();
   TextEditingController _textEditNamaBarang = TextEditingController();
   TextEditingController _textEditNomorBarang = TextEditingController();
+  TextEditingController _textEditDate = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     _lokasiBloc = BlocProvider.of<LokasiBloc>(context); //initial bloc lokasi
+    _inventarisBloc = BlocProvider.of<InventarisBloc>(context);
     _lokasiBloc.add(ClearLokasiEvent());
-    TextEditingController _textEditDate = TextEditingController(
-      text: _date.day.toString() +
-          " / " +
-          _date.month.toString() +
-          " / " +
-          _date.year.toString(),
-    );
+    _textEditDate.text = dateFormat.format(_date);
+    _inventarisBloc.add(ClearEventInventaris());
+
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.only(right: 5.0.w, left: 5.0.w),
@@ -103,28 +108,68 @@ class _AddItemState extends State<AddItem> {
             textField("Nama Barang", Icons.inventory, _textEditNamaBarang),
             textField("Nomor Inventaris", FontAwesomeIcons.idCard,
                 _textEditNomorBarang),
-            datePickerTextField("Tanggal", Icons.date_range, _textEditDate),
+            datePickerTextField(
+                "Tanggal Pembukuan", Icons.date_range, _textEditDate),
             locationPicker(
                 "Lokasi", Icons.location_on_outlined, _textEditLocation),
             SizedBox(
               height: 2.0.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text("SAVE"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.lightGreen, // background
-                    onPrimary: Colors.white, // foreground
-                  ),
-                )
-              ],
-            ),
+            BlocBuilder<InventarisBloc, InventarisState>(
+              builder: (context, state) {
+                if (state is AddInventarisLoading) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    EasyLoading.show(status: 'loading...');
+                  });
+                }
+                if (state is AddInventarisSuccess) {
+                  print("sukses!!");
+                  if (state.addInventarisModel.success != "error") {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      EasyLoading.showSuccess('Great Success!');
+                    });
+                  } else {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      EasyLoading.showError('Nomor Inventaris Sudah terdartar');
+                    });
+                  }
+                  Future.delayed(Duration(seconds: 3), () {
+                    EasyLoading.dismiss();
+                  });
+                }
+                return buttonSave();
+              },
+            )
           ],
         )),
       ),
+    );
+  }
+
+  //tombol save
+  Widget buttonSave() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            _inventarisBloc.add(AddInventarisEvent(
+              namaBarang: _textEditNamaBarang.text,
+              nomorBarang: _textEditNomorBarang.text,
+              lokasi: _textEditLocation.text,
+              image: _image,
+              tanggalPembukuan: _textEditDate.text,
+              latitude: _selectedLocation.latitude.toString(),
+              longitude: _selectedLocation.longitude.toString(),
+            ));
+          },
+          child: Text("SAVE"),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.lightGreen, // background
+            onPrimary: Colors.white, // foreground
+          ),
+        )
+      ],
     );
   }
 

@@ -1,36 +1,70 @@
+// To parse this JSON data, do
+//
+//     final inventarisModel = inventarisModelFromJson(jsonString);
+
+import 'dart:convert';
+
+List<InventarisModel> inventarisModelFromJson(String str) =>
+    List<InventarisModel>.from(
+        json.decode(str).map((x) => InventarisModel.fromJson(x)));
+
+String inventarisModelToJson(List<InventarisModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class InventarisModel {
-  String id;
+  InventarisModel({
+    this.id,
+    this.namaBarang,
+    this.nomorBarang,
+    this.tanggalPembukuan,
+    this.tanggalService,
+    this.tanggalMutasi,
+    this.status,
+    this.lokasi,
+    this.longitude,
+    this.latitude,
+    this.image,
+  });
+
+  int id;
   String namaBarang;
   String nomorBarang;
-  String tanggal;
+  DateTime tanggalPembukuan;
+  String tanggalService;
+  String tanggalMutasi;
+  String status;
   String lokasi;
+  String longitude;
+  String latitude;
   String image;
 
-  InventarisModel(
-      {this.id,
-      this.namaBarang,
-      this.nomorBarang,
-      this.tanggal,
-      this.lokasi,
-      this.image});
+  factory InventarisModel.fromJson(Map<String, dynamic> json) =>
+      InventarisModel(
+        id: json["id"],
+        namaBarang: json["nama_barang"],
+        nomorBarang: json["nomor_barang"],
+        tanggalPembukuan: DateTime.parse(json["tanggal_pembukuan"]),
+        tanggalService: json["tanggal_service"],
+        tanggalMutasi: json["tanggal_mutasi"],
+        status: json["status"],
+        lokasi: json["lokasi"],
+        longitude: json["longitude"],
+        latitude: json["latitude"],
+        image: json["image"],
+      );
 
-  InventarisModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    namaBarang = json['nama_barang'];
-    nomorBarang = json['nomor_barang'];
-    tanggal = json['tanggal'];
-    lokasi = json['lokasi'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['nama_barang'] = this.namaBarang;
-    data['nomor_barang'] = this.nomorBarang;
-    data['tanggal'] = this.tanggal;
-    data['lokasi'] = this.lokasi;
-    data['image'] = this.image;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "nama_barang": namaBarang,
+        "nomor_barang": nomorBarang,
+        "tanggal_pembukuan":
+            "${tanggalPembukuan.year.toString().padLeft(4, '0')}-${tanggalPembukuan.month.toString().padLeft(2, '0')}-${tanggalPembukuan.day.toString().padLeft(2, '0')}",
+        "tanggal_service": tanggalService,
+        "tanggal_mutasi": tanggalMutasi,
+        "status": status,
+        "lokasi": lokasi,
+        "longitude": longitude,
+        "latitude": latitude,
+        "image": image,
+      };
 }
