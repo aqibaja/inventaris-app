@@ -1,69 +1,76 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:inventaris_app_ptpn1/Api_Services/SignInService.dart';
-import 'package:inventaris_app_ptpn1/Api_Services/SignUpService.dart';
-import 'package:inventaris_app_ptpn1/Models/SignInFailModel.dart';
-import 'package:inventaris_app_ptpn1/Models/SignInModel.dart';
-import 'package:inventaris_app_ptpn1/Models/SignUpModel.dart';
+import 'package:inventaris_app_ptpn1/Api_Services/login_service.dart';
+import 'package:inventaris_app_ptpn1/Api_Services/register_service.dart';
+import 'package:inventaris_app_ptpn1/Models/login_fail_models.dart';
+import 'package:inventaris_app_ptpn1/Models/login_models.dart';
+import 'package:inventaris_app_ptpn1/Models/register_models.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  SignUpModel data;
-  SignInModel dataSignIn;
+  final RegisterRepo registerRepo;
+  final LoginRepo loginRepo;
   SharedPreferences sharedPreferences;
-  AuthBloc() : super(AuthInitial());
+  AuthBloc({this.registerRepo, this.loginRepo}) : super(AuthInitial());
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is RegisterEvent) {
       try {
-        yield SignUpLoading();
+        yield RegisterLoading();
         //Future.delayed(Duration(seconds: 2));
-        data = await SignUpService().getRegisterData(event.username,
+        var data = await registerRepo.getRegisterData(event.username,
             event.email, event.gender, event.password, event.noHp);
-
-        yield SignUpSuccess(signUpModel: data);
-      } catch (e) {
-        SignUpError(error: e.toString());
-      }
-    } else if (event is LoginEvent) {
-      try {
-        yield SignInLoading();
-        //Future.delayed(Duration(seconds: 2));
-        var data =
-            await SignInService().getLoginData(event.email, event.password);
-        if (data.success == true) {
-          yield SignInSuccess(signInModel: data);
+        if (data.success == false) {
+          yield RegisterFail(registerModel: data);
+        } else {
+          yield RegisterLoaded(registerModel: data);
         }
-        yield SignInFail(signInFailModel: data);
       } catch (e) {
-        SignInError(error: e.toString());
+        RegisterError(error: e.toString());
       }
     }
+    if (event is LoginEvent) {
+      try {
+        yield LoginLoading();
+        //Future.delayed(Duration(seconds: 2));
+        var data =
+            await LoginServices().getLoginData(event.email, event.password);
+
+        if (data.success == false) {
+          yield LoginFail(signInFailModel: data);
+        } else {
+          yield LoginSuccess(signInModel: data);
+        }
+      } catch (e) {
+        RegisterError(error: e.toString());
+      }
+    }
+    //clear state
+    if (event is ClearEvent) {
+      yield AuthInitial();
+    }
     //check save login in memory
-    else if (event is CheckLoginEvent) {
+    if (event is CheckLoginEvent) {
       //check shared info
       sharedPreferences = await SharedPreferences.getInstance();
-      var data = sharedPreferences.get('id_user');
+      var data = sharedPreferences.get('api_token');
       print(data);
       if (data != null) {
-        yield SignInSaved(idUSerSave: data);
+        yield LoginSaved(apiToken: data);
       } else {
-        yield SignInOut();
+        yield LoginOut();
       }
     }
     // logout event
-    else if (event is LogOutEvent) {
+    if (event is LogOutEvent) {
       sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.clear();
-      yield SignInOut();
-    } else //clear state
-    if (event is ClearEvent) {
-      yield AuthInitial();
+      yield LoginOut();
     }
   }
 }

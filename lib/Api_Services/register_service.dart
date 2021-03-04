@@ -1,27 +1,30 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:inventaris_app_ptpn1/Models/SignUpModel.dart';
+import 'package:inventaris_app_ptpn1/Models/register_models.dart';
+import 'package:inventaris_app_ptpn1/Ulrs/Urls.dart';
 
-abstract class SignUpRepo {
-  Future<SignUpModel> getRegisterData(String username, String email,
+abstract class RegisterRepo {
+  Future<RegisterModel> getRegisterData(String username, String email,
       String jenisKelamin, String password, String noHp);
 }
 
-class SignUpService implements SignUpRepo {
-  SignUpModel signUpData;
+//ini class untuk get data dari json
+class RegisterServices implements RegisterRepo {
+  RegisterModel registerData;
   @override
-  Future<SignUpModel> getRegisterData(String username, String email,
+  Future<RegisterModel> getRegisterData(String username, String email,
       String jenisKelamin, String password, String noHp) async {
     Map data = {
-      'username': username,
+      'name': username,
       'email': email,
-      'jenis_kelamin': jenisKelamin,
+      'gender': jenisKelamin,
       'password': password,
       'no_hp': noHp
     };
     String bodyPost = json.encode(data);
-    String url = "" /* Urls.SIGNUP_URL */;
+    String url =
+        Urls.ALL_INVENTARIS_URL + "flutter-udacoding1/public/user/register";
 
     Response response = await http.post(url,
         body: bodyPost, headers: {"Content-Type": "application/json"});
@@ -29,10 +32,10 @@ class SignUpService implements SignUpRepo {
     final body = json.decode(response.body);
     print(body);
     if (statusCode == 201 || statusCode == 400) {
-      signUpData = SignUpModel.fromJson(body);
-      return signUpData;
+      registerData = RegisterModel.fromJson(body);
+      return registerData;
     } else {
-      return signUpData;
+      return registerData;
     }
   }
 }

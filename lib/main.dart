@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventaris_app_ptpn1/Screen/login_screen.dart';
 import 'package:inventaris_app_ptpn1/bloc/inventaris_bloc.dart';
 import 'package:inventaris_app_ptpn1/bloc/lokasi_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 title: 'Sizer',
                 theme: ThemeData(primaryColor: Colors.lightGreen),
-                home: MainPage(),
+                home: AppSignIn(),
                 builder: EasyLoading.init(),
               ),
             );

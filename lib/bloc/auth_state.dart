@@ -5,43 +5,51 @@ abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
 
-//data api register / sigup selesai di get
-class SignUpSuccess extends AuthState {
-  final SignUpModel signUpModel;
-  SignUpSuccess({this.signUpModel});
+//ketika data sedang loading
+class RegisterLoading extends AuthState {}
+
+//ketika data ter load
+class RegisterLoaded extends AuthState {
+  final RegisterModel registerModel;
+  RegisterLoaded({this.registerModel});
 }
 
-class SignUpLoading extends AuthState {}
+//ketika data ter load
+class RegisterFail extends AuthState {
+  final RegisterModel registerModel;
+  RegisterFail({this.registerModel});
+}
 
-class SignUpError extends AuthState {
-  final String error;
-  SignUpError({this.error});
+//ketika data error
+class RegisterError extends AuthState {
+  final error;
+  RegisterError({this.error});
 }
 
 //data api login selesai di get
-class SignInSuccess extends AuthState {
-  final SignInModel signInModel;
-  SignInSuccess({this.signInModel});
+class LoginSuccess extends AuthState {
+  final LoginModel signInModel;
+  LoginSuccess({this.signInModel});
 }
 
-class SignInFail extends AuthState {
-  final SignInFailModel signInFailModel;
-  SignInFail({this.signInFailModel});
+class LoginFail extends AuthState {
+  final LoginFailModel signInFailModel;
+  LoginFail({this.signInFailModel});
 }
 
-class SignInSaved extends AuthState {
-  final String idUSerSave;
-  SignInSaved({this.idUSerSave});
+class LoginSaved extends AuthState {
+  final String apiToken;
+  LoginSaved({this.apiToken});
 }
 
-class SignInOut extends AuthState {
+class LoginOut extends AuthState {
   //final SignInModel signInModel;
   /* SignInProcess({this.signInModel}); */
 }
 
-class SignInLoading extends AuthState {}
+class LoginLoading extends AuthState {}
 
-class SignInError extends AuthState {
+class LoginError extends AuthState {
   final String error;
-  SignInError({this.error});
+  LoginError({this.error});
 }
