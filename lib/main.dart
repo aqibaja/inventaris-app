@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventaris_app_ptpn1/bloc/inventaris_bloc.dart';
 import 'package:inventaris_app_ptpn1/bloc/lokasi_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:inventaris_app_ptpn1/bloc/service_dart_bloc.dart';
 import 'main_page.dart';
 import 'package:sizer/sizer.dart';
 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
               providers: [
                 BlocProvider(create: (context) => LokasiBloc()),
                 BlocProvider(create: (context) => InventarisBloc()),
+                BlocProvider(create: (context) => ServiceDartBloc()),
               ],
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,

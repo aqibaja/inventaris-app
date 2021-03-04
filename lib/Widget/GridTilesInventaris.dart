@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:inventaris_app_ptpn1/Screen/detail_item.dart';
+import 'package:inventaris_app_ptpn1/Screen/qrCode_screen.dart';
 import 'package:sizer/sizer.dart';
 
 class CardInventaris extends StatelessWidget {
@@ -27,83 +29,107 @@ class CardInventaris extends StatelessWidget {
         elevation: 3,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              (imageUrl != null || imageUrl != "null")
-                  ? Image.network(
-                      "http://192.168.100.33/inventaris/assets/image/" +
-                          imageUrl,
-                      width: 25.0.w,
-                      height: 15.0.h,
-                      fit: BoxFit.fill,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace stackTrace) {
-                        // Appropriate logging or analytics, e.g.
-                        // myAnalytics.recordError(
-                        //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
-                        //   exception,
-                        //   stackTrace,
-                        // );
-                        return Image.asset(
-                          "assets/images/no-image.png",
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                (imageUrl != null || imageUrl != "null")
+                    ? Expanded(
+                        flex: 1,
+                        child: Image.network(
+                          "http://192.168.100.33/inventaris/assets/image/" +
+                              imageUrl,
                           width: 25.0.w,
                           height: 15.0.h,
                           fit: BoxFit.fill,
-                        );
-                      },
-                    )
-                  : Image.asset(
-                      "assets/images/no-image.png",
-                      width: 25.0.w,
-                      height: 15.0.h,
-                    ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Nama : " + name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Roboto-Light.ttf',
-                            fontSize: 11.0.sp)),
-                    SizedBox(
-                      height: 1.0.h,
-                    ),
-                    Text("Nomor : " + nomor,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'Roboto-Light.ttf',
-                            fontSize: 11.0.sp)),
-                    SizedBox(
-                      height: 1.0.h,
-                    ),
-                    Row(
-                      children: [
-                        buildElevatedButton("Edit"),
-                        SizedBox(
-                          width: 2.0.w,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace stackTrace) {
+                            // Appropriate logging or analytics, e.g.
+                            // myAnalytics.recordError(
+                            //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
+                            //   exception,
+                            //   stackTrace,
+                            // );
+                            return Image.asset(
+                              "assets/images/no-image.png",
+                              width: 25.0.w,
+                              height: 15.0.h,
+                              fit: BoxFit.fill,
+                            );
+                          },
                         ),
-                        buildElevatedButton("Print QR Code")
+                      )
+                    : Expanded(
+                        flex: 1,
+                        child: Image.asset(
+                          "assets/images/no-image.png",
+                          width: 25.0.w,
+                          height: 15.0.h,
+                        ),
+                      ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Nama : " + name,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Roboto-Light.ttf',
+                                fontSize: 11.0.sp)),
+                        SizedBox(
+                          height: 1.0.h,
+                        ),
+                        Text("Nomor : " + nomor,
+                            textAlign: TextAlign.left,
+                            //overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Roboto-Light.ttf',
+                                fontSize: 11.0.sp)),
+                        SizedBox(
+                          height: 1.0.h,
+                        ),
+                        Row(
+                          children: [
+                            buildElevatedButton(context, "Detail", nomor),
+                            SizedBox(
+                              width: 2.0.w,
+                            ),
+                            buildElevatedButton(context, "QR Code", nomor)
+                          ],
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  ElevatedButton buildElevatedButton(String text) => ElevatedButton(
-        onPressed: () {},
+  ElevatedButton buildElevatedButton(
+          BuildContext context, String text, String nomorInventaris) =>
+      ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => (text == "Detail")
+                      ? DetailScreen(
+                          nomorInventaris: nomorInventaris,
+                        )
+                      : QrCodeScreen()));
+        },
         child: Text(
           text,
         ),

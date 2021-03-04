@@ -32,4 +32,9 @@ class AddInventarisEvent extends InventarisEvent {
       this.longitude});
 }
 
+class GetInventarisEvent extends InventarisEvent {
+  final String nomorInventaris;
+  GetInventarisEvent({this.nomorInventaris});
+}
+
 class ClearEventInventaris extends InventarisEvent {}

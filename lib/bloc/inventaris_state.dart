@@ -21,3 +21,21 @@ class AddInventarisError extends InventarisState {
   final String error;
   AddInventarisError({this.error});
 }
+
+//data api register / sigup selesai di get
+class GetInventarisSuccess extends InventarisState {
+  final GetInventarisModel getInventarisModel;
+  GetInventarisSuccess({this.getInventarisModel});
+}
+
+class GetInventarisFail extends InventarisState {
+  final FailInventarisModel failInventarisModel;
+  GetInventarisFail({this.failInventarisModel});
+}
+
+class GetInventarisLoading extends InventarisState {}
+
+class GetInventarisError extends InventarisState {
+  final String error;
+  GetInventarisError({this.error});
+}

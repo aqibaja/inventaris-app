@@ -69,13 +69,13 @@ class _MainPageState extends State<MainPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              buildMaterialButton(1, Icons.post_add_outlined, AddItem()),
-              buildMaterialButton(2, Icons.inventory, AllItem()),
+              buildMaterialButton(0, Icons.post_add_outlined, AddItem()),
+              buildMaterialButton(1, Icons.inventory, AllItem()),
               SizedBox(
                 width: 7.0.h,
               ),
-              buildMaterialButton(3, Icons.history, History()),
-              buildMaterialButton(4, Icons.person, Profile()),
+              buildMaterialButton(2, Icons.history, History()),
+              buildMaterialButton(3, Icons.person, Profile()),
             ],
           ),
         ),

@@ -59,8 +59,10 @@ class _AllItemState extends State<AllItem> {
             ),
           ),
           Expanded(
-            child: GetWidgetAll(
-              slug: "inventaris",
+            child: SingleChildScrollView(
+              child: GetWidgetAll(
+                slug: "inventaris",
+              ),
             ),
           )
         ],

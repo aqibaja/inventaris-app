@@ -4,14 +4,14 @@
 
 import 'dart:convert';
 
-FailAddInventarisModel failAddInventarisModelFromJson(String str) =>
-    FailAddInventarisModel.fromJson(json.decode(str));
+FailInventarisModel failAddInventarisModelFromJson(String str) =>
+    FailInventarisModel.fromJson(json.decode(str));
 
-String failAddInventarisModelToJson(FailAddInventarisModel data) =>
+String failAddInventarisModelToJson(FailInventarisModel data) =>
     json.encode(data.toJson());
 
-class FailAddInventarisModel {
-  FailAddInventarisModel({
+class FailInventarisModel {
+  FailInventarisModel({
     this.status,
     this.error,
   });
@@ -19,8 +19,8 @@ class FailAddInventarisModel {
   String status;
   String error;
 
-  factory FailAddInventarisModel.fromJson(Map<String, dynamic> json) =>
-      FailAddInventarisModel(
+  factory FailInventarisModel.fromJson(Map<String, dynamic> json) =>
+      FailInventarisModel(
         status: json["status"],
         error: json["error"],
       );
