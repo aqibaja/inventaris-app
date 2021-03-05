@@ -137,7 +137,7 @@ class _AppSingUpState extends State<AppSingUp> {
                             color: Color(0xFF666666),
                             fontFamily: defaultFontFamily,
                             fontSize: defaultFontSize),
-                        hintText: "Email",
+                        hintText: "NIP",
                       ),
                     ),
                     SizedBox(
@@ -348,7 +348,7 @@ class _AppSingUpState extends State<AppSingUp> {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        color: Colors.cyan,
+                        color: Colors.green,
                         shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(15.0),
                             side: BorderSide(color: Colors.black)),

@@ -83,7 +83,7 @@ class _AppSignInState extends State<AppSignIn> {
                         ),
                         filled: true,
                         prefixIcon: Icon(
-                          Icons.phone,
+                          Icons.person,
                           color: Color(0xFF666666),
                           size: defaultIconSize,
                         ),
@@ -92,7 +92,7 @@ class _AppSignInState extends State<AppSignIn> {
                             color: Color(0xFF666666),
                             fontFamily: defaultFontFamily,
                             fontSize: defaultFontSize),
-                        hintText: "Email",
+                        hintText: "NIP",
                       ),
                     ),
                     SizedBox(
@@ -247,7 +247,7 @@ class _AppSignInState extends State<AppSignIn> {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        color: Colors.cyan,
+                        color: Colors.green,
                         shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(15.0),
                             side: BorderSide(color: Colors.black)),

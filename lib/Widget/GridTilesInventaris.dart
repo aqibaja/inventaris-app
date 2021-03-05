@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:inventaris_app_ptpn1/Screen/detail_item.dart';
 import 'package:inventaris_app_ptpn1/Screen/qrCode_screen.dart';
+import 'package:inventaris_app_ptpn1/Ulrs/Urls.dart';
 import 'package:sizer/sizer.dart';
 
 class CardInventaris extends StatelessWidget {
   final String name;
   final String imageUrl;
   final String nomor;
+  final String qrCodeUrl;
 
-  CardInventaris({Key key, @required this.name, this.imageUrl, this.nomor})
+  CardInventaris(
+      {Key key, @required this.name, this.imageUrl, this.nomor, this.qrCodeUrl})
       : super(key: key);
 
   @override
@@ -38,8 +41,7 @@ class CardInventaris extends StatelessWidget {
                     ? Expanded(
                         flex: 1,
                         child: Image.network(
-                          "http://192.168.100.33/inventaris/assets/image/" +
-                              imageUrl,
+                          Urls.ROOT_URL + imageUrl,
                           width: 25.0.w,
                           height: 15.0.h,
                           fit: BoxFit.fill,
@@ -128,7 +130,9 @@ class CardInventaris extends StatelessWidget {
                       ? DetailScreen(
                           nomorInventaris: nomorInventaris,
                         )
-                      : QrCodeScreen()));
+                      : QrCodeScreen(
+                          qrCodeUrl: qrCodeUrl,
+                        )));
         },
         child: Text(
           text,

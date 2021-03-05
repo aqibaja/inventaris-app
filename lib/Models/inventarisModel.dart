@@ -24,6 +24,7 @@ class InventarisModel {
     this.longitude,
     this.latitude,
     this.image,
+    this.imageQrcode,
   });
 
   int id;
@@ -32,11 +33,12 @@ class InventarisModel {
   DateTime tanggalPembukuan;
   String tanggalService;
   String tanggalMutasi;
-  String status;
+  Status status;
   String lokasi;
   String longitude;
   String latitude;
   String image;
+  String imageQrcode;
 
   factory InventarisModel.fromJson(Map<String, dynamic> json) =>
       InventarisModel(
@@ -46,11 +48,12 @@ class InventarisModel {
         tanggalPembukuan: DateTime.parse(json["tanggal_pembukuan"]),
         tanggalService: json["tanggal_service"],
         tanggalMutasi: json["tanggal_mutasi"],
-        status: json["status"],
+        status: statusValues.map[json["status"]],
         lokasi: json["lokasi"],
         longitude: json["longitude"],
         latitude: json["latitude"],
         image: json["image"],
+        imageQrcode: json["image_qrcode"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,10 +64,53 @@ class InventarisModel {
             "${tanggalPembukuan.year.toString().padLeft(4, '0')}-${tanggalPembukuan.month.toString().padLeft(2, '0')}-${tanggalPembukuan.day.toString().padLeft(2, '0')}",
         "tanggal_service": tanggalService,
         "tanggal_mutasi": tanggalMutasi,
-        "status": status,
+        "status": statusValues.reverse[status],
         "lokasi": lokasi,
-        "longitude": longitude,
-        "latitude": latitude,
+        "longitude": longitudeValues.reverse[longitude],
+        "latitude": latitudeValues.reverse[latitude],
         "image": image,
+        "image_qrcode": imageQrcodeValues.reverse[imageQrcode],
       };
+}
+
+enum ImageQrcode {
+  EMPTY,
+  STORAGE_APP_PUBLIC_IMG_121312312412112121211111121213131_PNG,
+  STORAGE_APP_PUBLIC_IMG_1213123124121333_PNG
+}
+
+final imageQrcodeValues = EnumValues({
+  "": ImageQrcode.EMPTY,
+  "/storage/app/public/img-121312312412112121211111121213131.png":
+      ImageQrcode.STORAGE_APP_PUBLIC_IMG_121312312412112121211111121213131_PNG,
+  "/storage/app/public/img-1213123124121333.png":
+      ImageQrcode.STORAGE_APP_PUBLIC_IMG_1213123124121333_PNG
+});
+
+enum Latitude { EMPTY, THE_554829 }
+
+final latitudeValues =
+    EnumValues({"": Latitude.EMPTY, "5.54829": Latitude.THE_554829});
+
+enum Longitude { EMPTY, THE_95323755 }
+
+final longitudeValues =
+    EnumValues({"": Longitude.EMPTY, "95.323755": Longitude.THE_95323755});
+
+enum Status { NEW }
+
+final statusValues = EnumValues({"New": Status.NEW});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
+  }
 }

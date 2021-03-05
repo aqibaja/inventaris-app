@@ -44,6 +44,7 @@ Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
           name: results[i].namaBarang,
           imageUrl: results[i].image,
           nomor: results[i].nomorBarang,
+          qrCodeUrl: results[i].imageQrcode,
         );
       });
 }

@@ -20,7 +20,7 @@ class _MainPageState extends State<MainPage> {
     AddItem(),
     AllItem(),
     History(),
-    Profile()
+    ProfileScreen()
   ];
 
   //screen yang aktif
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> {
         onPressed: () {
           setState(() {
             currentScreen = ScanInventaris();
-            currentTap = 0;
+            currentTap = 5;
           });
         },
         backgroundColor: Colors.orangeAccent,
@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> {
                 width: 7.0.h,
               ),
               buildMaterialButton(2, Icons.history, History()),
-              buildMaterialButton(3, Icons.person, Profile()),
+              buildMaterialButton(3, Icons.person, ProfileScreen()),
             ],
           ),
         ),

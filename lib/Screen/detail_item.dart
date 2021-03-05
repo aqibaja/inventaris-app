@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inventaris_app_ptpn1/Models/GetInventarisModel.dart';
+import 'package:inventaris_app_ptpn1/Ulrs/Urls.dart';
 import 'package:inventaris_app_ptpn1/bloc/inventaris_bloc.dart';
 import 'package:inventaris_app_ptpn1/bloc/lokasi_bloc.dart';
 import 'package:inventaris_app_ptpn1/bloc/service_dart_bloc.dart';
@@ -37,6 +38,7 @@ class _DetailScreenState extends State<DetailScreen> {
   LokasiBloc _lokasiBloc;
   InventarisBloc _inventarisBloc;
   ServiceDartBloc _serviceDartBloc;
+  String imageGet;
 
   //method menyambil image di camera
   Future getImageCamera() async {
@@ -160,7 +162,7 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Center(
                   child: Column(
                 children: [
-                  image(),
+                  image(detail.image),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -243,7 +245,7 @@ class _DetailScreenState extends State<DetailScreen> {
             child: Center(
                 child: Column(
               children: [
-                image(),
+                image(""),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -611,7 +613,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  Container image() {
+  Container image(String foto) {
     return Container(
       margin: EdgeInsets.only(top: 5.0.h),
       width: 45.0.w,
@@ -619,10 +621,28 @@ class _DetailScreenState extends State<DetailScreen> {
       decoration:
           BoxDecoration(border: Border.all(color: Colors.black, width: 5)),
       child: (_image == null)
-          ? Icon(
-              Icons.image,
-              size: 35.0.w,
-            )
+          ? (foto != "")
+              ? Image.network(
+                  Urls.ROOT_URL + foto,
+                  fit: BoxFit.fill,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace stackTrace) {
+                    // Appropriate logging or analytics, e.g.
+                    // myAnalytics.recordError(
+                    //   'An error occurred loading "https://example.does.not.exist/image.jpg"',
+                    //   exception,
+                    //   stackTrace,
+                    // );
+                    return Image.asset(
+                      "assets/images/no-image.png",
+                      fit: BoxFit.fill,
+                    );
+                  },
+                )
+              : Image.asset(
+                  "assets/images/no-image.png",
+                  fit: BoxFit.fill,
+                )
           : Image.file(
               _image,
               height: 35.0.w,
