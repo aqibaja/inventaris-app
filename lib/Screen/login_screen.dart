@@ -92,7 +92,7 @@ class _AppSignInState extends State<AppSignIn> {
                             color: Color(0xFF666666),
                             fontFamily: defaultFontFamily,
                             fontSize: defaultFontSize),
-                        hintText: "NIP",
+                        hintText: "SAP",
                       ),
                     ),
                     SizedBox(

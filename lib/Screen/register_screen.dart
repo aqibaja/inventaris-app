@@ -128,7 +128,7 @@ class _AppSingUpState extends State<AppSingUp> {
                         ),
                         filled: true,
                         prefixIcon: Icon(
-                          Icons.mail,
+                          Icons.person,
                           color: Color(0xFF666666),
                           size: defaultIconSize,
                         ),
@@ -137,7 +137,7 @@ class _AppSingUpState extends State<AppSingUp> {
                             color: Color(0xFF666666),
                             fontFamily: defaultFontFamily,
                             fontSize: defaultFontSize),
-                        hintText: "NIP",
+                        hintText: "SAP",
                       ),
                     ),
                     SizedBox(
