@@ -1,4 +1,4 @@
-# inventaris_app_ptpn1
+# inventaris_app
 
 A new Flutter project.
 
